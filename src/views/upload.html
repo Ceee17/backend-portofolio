@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Image</title>
+  <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
+</head>
+<body>
+  <button id="upload_widget_opener" class="cloudinary-button">Upload Image</button>
+  <script>
+    async function initializeUploadWidget() {
+      try {
+        const response = await fetch('/config');
+        const config = await response.json();
+
+        var uploadWidget = cloudinary.createUploadWidget({
+          cloudName: config.cloudName,
+          uploadPreset: config.uploadPreset
+        }, (error, result) => {
+          if (!error && result && result.event === "success") {
+            console.log('Done! Here is the image URL: ', result.info.secure_url);
+          }
+        });
+
+        document.getElementById('upload_widget_opener').addEventListener('click', function() {
+          uploadWidget.open();
+        }, false);
+      } catch (err) {
+        console.error('Error fetching config:', err);
+      }
+    }
+
+    initializeUploadWidget();
+  </script>
+</body>
+</html>
