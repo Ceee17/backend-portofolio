@@ -7,7 +7,7 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const path = require('path');
 const cors = require('cors');
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   const morgan = require('morgan');
   app.use(morgan('dev', { stream: { write: message => logger.http(message) } }));
 }
