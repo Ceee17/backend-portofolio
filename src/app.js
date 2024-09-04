@@ -6,12 +6,20 @@ var morgan = require('morgan');
 const projectRoutes = require('./routes/projectRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const path = require('path');
+const cors = require('cors');
 
 app.use(morgan('combined'));
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json()); // Parse JSON bodies
 app.use('/api/projects', projectRoutes); // Route handling for projects
 app.use('/upload', uploadRoutes);
+
+// Optional: If you want to log CORS requests
+app.use((req, res, next) => {
+  console.log(`CORS Request from: ${req.header('Origin')}`);
+  next();
+});
 
 app.get('/config', (req, res) => {
   res.json({

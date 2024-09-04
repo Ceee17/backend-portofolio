@@ -6,13 +6,13 @@ WORKDIR /usr/src/app
 
 # Copy package.json and install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm ci --only=production
 
 # Copy source code
 COPY . .
 
 # Expose the port
-EXPOSE 3000
+EXPOSE 5000
 
 # Start the application
-CMD ["node", "src/app.js"]
+CMD ["npm", "start"]
