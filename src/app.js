@@ -2,13 +2,16 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
-var morgan = require('morgan');
 const projectRoutes = require('./routes/projectRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const path = require('path');
 const cors = require('cors');
 
-app.use(morgan('combined'));
+if (process.env.NODE_ENV !== 'production') {
+  const morgan = require('morgan');
+  app.use(morgan('dev', { stream: { write: message => logger.http(message) } }));
+}
+
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json()); // Parse JSON bodies
