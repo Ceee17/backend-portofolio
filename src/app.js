@@ -6,10 +6,12 @@ const projectRoutes = require('./routes/projectRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const path = require('path');
 const cors = require('cors');
+const morgan = require('morgan');
 
 if (process.env.NODE_ENV === 'development') {
-  const morgan = require('morgan');
   app.use(morgan('dev', { stream: { write: message => logger.http(message) } }));
+} else if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined', { stream: { write: message => logger.http(message) } }));
 }
 
 app.use(cors());

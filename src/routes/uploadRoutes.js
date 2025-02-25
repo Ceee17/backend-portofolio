@@ -9,8 +9,7 @@ const upload = multer({ dest: 'uploads/' });
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/upload.html'));
   });
-  
+
 router.post('/', upload.single('image'), uploadController.uploadImage);
-  
+
 module.exports = router;
-  
